@@ -41,4 +41,4 @@ To set Debug mode to `True`, you need to edit the `DEBUG` variable to `True`.
 ## License
 This software is licensed under the MIT license.
 
-See the LICENSE file for more information.
+See the [LICENSE](LICENCE) file for more information.
