@@ -27,7 +27,7 @@
     <br>
     <h3>Comments</h3>
     {% for comment in page_user.comments_set.all %}
-        <li>{{ comment.content }} - {{ comment.date_posted }}
+        <li>{{ comment.content | slice:":100" }} - {{ comment.date_posted }}
             <br>
             On post
             <br>
