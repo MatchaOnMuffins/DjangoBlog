@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    Add a new post
+{% endblock %}
+
+
+{% block content %}
+    {% if user.is_authenticated %}
+        <h1>Add a new post</h1>
+        <br>
+        <br>
+        <div class="form-control">
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="btn btn-primary">Add post</button>
+            </form>
+        </div>
+
+
+    {% else %}
+        <h2>You need to be logged in to add a post</h2>
+    {% endif %}
+
+
+{% endblock %}

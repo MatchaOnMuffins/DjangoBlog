@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}
+    Edit a blog post
+{% endblock %}
+
+
+{% block content %}
+    {% if user.is_authenticated and user == comments.author or user.is_superuser %}
+        <h1>Edit a Comment</h1>
+        <br>
+        <br>
+        <div class="form-control">
+            <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="btn btn-primary">Update</button>
+            </form>
+        </div>
+    {% else %}
+        <h1>You are not authorized to view this page.</h1>
+        <br>
+        <br>
+        <h3>Please <a href="{% url 'login' %}">login</a> to view this
+            page.</h3>
+    {% endif %}
+
+{% endblock %}

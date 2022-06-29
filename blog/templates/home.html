@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block title %}
+    Welcome to my blog
+{% endblock %}
+
+
+{% block content %}
+    <h1>Welcome to My Blog</h1>
+    <ul>
+        {% for post in object_list %}
+            <li><a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a> - {{ post.author }}
+                {% if user.is_authenticated and user == post.author or user.is_superuser %}
+                    <small>
+                        <a href="{% url 'post_update' post.pk %}">(Edit)</a>
+                    </small>
+                {% endif %}
+            </li>
+
+            {{ post.content | slice:":300" }}
+            <br>
+            <br>
+        {% endfor %}
+
+    </ul>
+
+{% endblock %}

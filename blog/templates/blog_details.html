@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ post.title_tag }}
+{% endblock %}
+
+{% block content %}
+    <body>
+    <div>
+        <h1>{{ post.title }}</h1>
+        <div style="color: gray">
+
+            <i>{{ post.date_posted }}</i>
+            <br>
+            <a href="/users/{{ post.author.pk }}/profile">
+                <i>{{ post.author }}</i>
+            </a>
+            <br>
+            {% if user.is_authenticated and user == post.author or user.is_superuser %}
+                <small><a
+                        href="{% url 'post_update' post.pk %}">(Edit)
+                </a>
+                    <br>
+                </small>
+                <small><a
+                        href="{% url 'post_delete' post.pk %}">(Delete)
+                </a>
+                </small>
+            {% endif %}
+        </div>
+        <hr>
+        <p>{{ post.content }}</p>
+    </div>
+    <div class="container">
+        <br><br>
+        <h3>Comments</h3>
+        {% if not post.comments.all %}
+            <br>
+            <div style="color: gray">
+                <i>
+                    No comments yet
+                    <br>
+                    {% if user.is_authenticated %}
+                        <a href="{% url 'comment_create' post.pk %}">Add one!</a>
+                    {% else %}
+                        <a href="{% url 'login' %}">Login</a> to add one!
+                    {% endif %}
+                </i>
+            </div>
+            <br>
+        {% else %}
+
+            <br>
+            {% for comment in post.comments.all %}
+                <div class="row">
+                    <div class="col-md-3">
+                        <a href="/users/{{ comment.author.pk }}/profile">
+                            <i>{{ comment.author }}</i>
+                        </a>
+                        <i>- {{ comment.date_posted }}</i>
+                        <br>
+                        <p>{{ comment.content }}</p>
+                    </div>
+                    <div class="col-md-8">
+                        {% if user.is_authenticated and user == comment.author or user.is_superuser %}
+                            <small><a
+                                    href="{% url 'comment_update' comment.pk %}">(Edit)
+                            </a>
+                                <br>
+                            </small>
+                            <small><a
+                                    href="{% url 'comment_delete' comment.pk %}">(Delete)
+                            </a>
+                            </small>
+                        {% endif %}
+                    </div>
+                </div>
+
+            {% endfor %}
+
+            <i>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'comment_create' post.pk %}">Write a Comment</a>
+                {% else %}
+                    <a href="{% url 'login' %}">Login</a> to Write a Comment
+                {% endif %}
+            </i>
+            <hr>
+        {% endif %}
+    </div>
+    <div>
+        <a href="{% url 'home' %}" class="btn btn-secondary">Back to Home</a>
+    </div>
+{% endblock %}
